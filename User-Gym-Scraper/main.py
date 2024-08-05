@@ -1,7 +1,9 @@
 from bs4 import BeautifulSoup
 from enum import Enum
 from typing import Set
+import random
 import requests
+import time
 
 
 class GymConfig(Enum):
@@ -67,6 +69,9 @@ def main():
     for page in range(1, max_page + 1):
         print(f"Scraping page {page} of {max_page}")
 
+        # Add delay to avoid getting kicked
+        time.sleep(random.uniform(1, 3))
+
         response = requests.get(get_submission_url(USER, page))
         soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -87,7 +92,7 @@ def main():
 
 
     # Write the url to a file
-    output_file_name = f'{USER}'
+    output_file_name = f'result/{USER}'
 
     if GYM_CONFIG == GymConfig.SOLO:
         output_file_name += '_solo'
